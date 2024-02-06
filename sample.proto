@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package sample;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+service SampleService {
+  rpc GetValue(GetValueRequest) returns (GetValueResponse);
+  rpc UpdateValue(UpdateValueRequest) returns (UpdateValueResponse);
+  rpc DeleteValue(DeleteValueRequest) returns (DeleteValueResponse);
+}
+
+message Key {
+  string key = 1;
+}
+
+message Value {
+  Key key = 1;
+  string value = 2;
+  oneof expiration {
+    google.protobuf.Timestamp expire_time = 3;
+    google.protobuf.Duration ttl = 4;
+  }
+}
+
+message GetValueRequest {
+  Key key = 1;
+}
+
+message GetValueResponse {
+  Value value = 1;
+}
+
+message UpdateValueRequest {
+  Value value = 1;
+}
+
+message UpdateValueResponse {}
+
+message DeleteValueRequest {
+  Key key = 1;
+}
+
+message DeleteValueResponse {}
